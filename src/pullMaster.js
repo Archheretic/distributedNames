@@ -5,6 +5,8 @@ let path = require('path');
 let namesPath = path.join(__dirname, 'storage', 'users.json');
 let nodesPath = path.join(__dirname, 'storage', 'nodes.json');
 let fs = require('fs');
+let User = require('./models/user.model');
+
 
 var https = require('http');
 
@@ -23,10 +25,9 @@ module.exports = pullMaster;
 
 function pullNames() {
     console.log("It has been six seconds!");
-    let obj;
     fs.readFile(nodesPath, 'utf8', function (err, data) {
         if (err) throw err;
-        obj = JSON.parse(data);
+        let obj = JSON.parse(data);
         let ip;
         let port;
         for (let i = 0, len = obj.nodes.length; i < len; i++) {
@@ -50,9 +51,10 @@ function doGetRequest(ip, port) {
     let reqGET = https.get(optionsget, function(res) {
        // console.log("statusCode: ", res.statusCode);
        // console.log("headers: ", res.headers);
-        res.on('data', function(d) {
+        res.on('data', function(users) {
        //     console.info('GET result:\n');
-            process.stdout.write(d);
+            process.stdout.write(users);
+            User.CheckAndAdd(users);
 
          //   console.info('\n\nCall completed');
         });

@@ -3,19 +3,20 @@
  */
 let express = require('express');
 let router = express.Router();
-let fs = require('fs');
-let path = require('path');
-
-let usersPath = path.join(__dirname, '..', 'storage', 'users.json');
-//let jsonString = fs.readFileSync(namesPath, 'utf8');
+let User = require('../models/user.model');
 
 router.get('/', function(req, res) {
-    let obj;
-    fs.readFile(usersPath, 'utf8', function (err, data) {
-        if (err) throw err;
-        obj = JSON.parse(data);
-        console.log(obj);
-        res.json(obj);
+    User.getUsers( (err, users) =>{
+        if (users)
+            res.json(users);
+        else
+            res.json({err});
+    });
+});
+
+router.post('/', function(req, res) {
+    User.addUser(req.body.name, (status) => {
+        res.json(status);
     });
 });
 
