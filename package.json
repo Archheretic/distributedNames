@@ -9,9 +9,12 @@
     "fs": "0.0.1-security",
     "jsonfile": "^2.4.0",
     "morgan": "^1.8.1",
+    "npm": "^4.3.0",
+    "public-ip": "^2.3.3",
     "underscore": "^1.8.3"
   },
   "scripts": {
-    "start": "NODE_ENV=dev node src/server.js"
+    "start": "NODE_ENV=dev node src/server.js",
+    "startUbuntu": "NODE_ENV=dev nodejs --use_strict src/server.js"
   }
 }
