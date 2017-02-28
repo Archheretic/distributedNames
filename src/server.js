@@ -9,6 +9,7 @@ let bodyParser = require("body-parser");
 let morgan = require("morgan");
 // Our files
 let users = require("./routes/users");
+let nodes = require("./routes/nodes");
 let app = express();
 let path = require("path");
 
@@ -24,6 +25,8 @@ app.use(function(req, res, next) {
 });
 
 app.use('/api/users', users);
+app.use('/api/nodes', nodes);
+
 
 app.get('/',function(req,res){
     res.sendFile(path.join(__dirname+'/views/home.html'));
