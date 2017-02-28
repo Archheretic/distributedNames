@@ -6,18 +6,17 @@ let router = express.Router();
 let fs = require('fs');
 let path = require('path');
 
-let namesPath = path.join(__dirname, '..', 'storage', 'names.json');
+let usersPath = path.join(__dirname, '..', 'storage', 'users.json');
 //let jsonString = fs.readFileSync(namesPath, 'utf8');
 
 router.get('/', function(req, res) {
     let obj;
-    fs.readFile(namesPath, 'utf8', function (err, data) {
+    fs.readFile(usersPath, 'utf8', function (err, data) {
         if (err) throw err;
         obj = JSON.parse(data);
         console.log(obj);
         res.json(obj);
     });
-
 });
 
 module.exports = router;

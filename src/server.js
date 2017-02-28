@@ -12,6 +12,8 @@ let users = require("./routes/users");
 let nodes = require("./routes/nodes");
 let app = express();
 let path = require("path");
+let pullMaster = require("./pullMaster");
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -39,5 +41,7 @@ app.get('/', function(req, res) {
 */
 app.listen(3000);
 console.log("Server is listening to port 3000");
+
+pullMaster.start();
 
 module.exports = app;
