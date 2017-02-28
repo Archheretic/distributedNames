@@ -10,12 +10,12 @@ let morgan = require("morgan");
 // Our files
 let users = require("./routes/users");
 let app = express();
+let path = require("path");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 // logs requests to the console.
 app.use(morgan("dev"));
-
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -25,6 +25,15 @@ app.use(function(req, res, next) {
 
 app.use('/api/users', users);
 
+app.get('/',function(req,res){
+    res.sendFile(path.join(__dirname+'/views/home.html'));
+});
+
+/*
+app.get('/', function(req, res) {
+    res.render(index);
+});
+*/
 app.listen(3000);
 console.log("Server is listening to port 3000");
 
