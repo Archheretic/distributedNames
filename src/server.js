@@ -7,12 +7,17 @@
 let express = require("express");
 let bodyParser = require("body-parser");
 let morgan = require("morgan");
+let path = require("path");
 // Our files
 let users = require("./routes/users");
 let nodes = require("./routes/nodes");
-let app = express();
-let path = require("path");
 let pullMaster = require("./pullMaster");
+let startup = require('./startup');
+
+startup.checkIfRegister();
+let app = express();
+
+process.env.PORT = process.env.PORT || 8001;
 
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -39,8 +44,9 @@ app.get('/', function(req, res) {
     res.render(index);
 });
 */
-app.listen(3000);
-console.log("Server is listening to port 3000");
+app.listen(process.env.PORT);
+console.log("Server is listening to port " + process.env.PORT);
+
 
 pullMaster.start();
 

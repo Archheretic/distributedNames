@@ -5,6 +5,7 @@ let fs = require('fs');
 let path = require('path');
 let _ = require('underscore');
 
+let utility = require('./utility');
 let usersPath = path.join(__dirname, '..', 'storage', 'users.json');
 //let jsonString = fs.readFileSync(namesPath, 'utf8');
 
@@ -26,7 +27,7 @@ let user = {
             let pos = data.users.length;
             data.users[pos] = { "name": name };
             users = JSON.stringify(data);
-            writeToFile(users);
+            utility.writeToFile(usersPath, users);
 
             callback({"Message": "Name " + name + " Added"});
         })
@@ -42,28 +43,18 @@ let user = {
                 console.log(err);
             }
 
+            //console.log(JSON.stringify(oldUsers));
+            //console.log(newUsers);
             if(JSON.stringify(oldUsers) === newUsers) {
                 return;
             }
             newUsers = JSON.parse(newUsers);
-            //newUsers = concatArraysUnique(oldUsers, newUsers);
-            let result = _.map(oldUsers, function(orig){
-                return _.extend(orig, _.findWhere(newUsers, {name: orig.name}));
-            });
-            writeToFile(JSON.stringify(result));
+            _.extend(newUsers, oldUsers);
+            //console.log(newUsers);
+            utility.writeToFile(usersPath, JSON.stringify(newUsers));
         })
     }
 };
 
 module.exports = user;
 
-
-
-function writeToFile(users) {
-    fs.writeFile(usersPath, users, function(err) {
-        if(err) {
-            return console.log(err);
-        }
-        console.log("The file users.json was saved!");
-    });
-}
