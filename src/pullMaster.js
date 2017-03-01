@@ -94,8 +94,8 @@ function portScan(ip) {
             if (res.statusCode === 200) {
                 res.on('data', function(nodes) {
                     //     console.info('GET result:\n');
-                    //process.stdout.write(nodes);
-                    //console.log('');
+                    process.stdout.write(nodes);
+                    console.log('');
                     Node.CheckAndMerge(nodes);
                     //   console.info('\n\nCall completed');
                 });
