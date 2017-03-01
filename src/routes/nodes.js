@@ -11,11 +11,8 @@ let nodesPath = path.join(__dirname, '..', 'storage', 'nodes.json');
 //let jsonString = fs.readFileSync(namesPath, 'utf8');
 
 router.get('/', function(req, res) {
-    Node.getNodes( (err, nodes) =>{
-        if (nodes)
-            res.json(nodes);
-        else
-            res.json({err});
+    Node.getNodes( (result) =>{ // ugly
+        res.json(result);
     });
 });
 

@@ -6,11 +6,8 @@ let router = express.Router();
 let User = require('../models/user.model');
 
 router.get('/', function(req, res) {
-    User.getUsers( (err, users) =>{
-        if (users)
-            res.json(users);
-        else
-            res.json({err});
+    User.getUsers( (result) => {// (err, users) =>{
+        res.json(result);
     });
 });
 
