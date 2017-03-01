@@ -20,11 +20,8 @@ router.get('/', function(req, res) {
 });
 
 router.post('/', function(req, res) {
-    Node.CheckAndAdd( (err, nodes) =>{
-        if (nodes)
-            res.json(nodes);
-        else
-            res.json({err});
+    Node.CheckAndAdd( (status) =>{
+        res.json(status);
     });
 });
 

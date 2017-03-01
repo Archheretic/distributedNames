@@ -90,7 +90,7 @@ function portScan(ip) {
 
         let reqGET = https.get(optionsget, function(res) {
             //console.log("statusCode: ", res.statusCode);
-            console.log("headers: ", res.headers);
+            //console.log("headers: ", res.headers);
             if (res.statusCode === 200) {
                 res.on('data', function(nodes) {
                     //     console.info('GET result:\n');
