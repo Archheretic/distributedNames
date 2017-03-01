@@ -8,6 +8,14 @@ let fs = require('fs');
 let User = require('./models/user.model');
 let Node = require('./models/node.model');
 let https = require('http');
+let publicIp = require('public-ip');
+
+
+let myIp;
+let myPort = parseInt(process.env.PORT);
+publicIp.v4().then(ip => {
+    myIp = ip;
+});
 
 let minPort = 8000;
 let maxPort = 8999;
@@ -35,7 +43,9 @@ function pullNames() {
      // if we go back to ports
     //        for (let port = 0; port < ports.length; port++)
     //        {
-            doGetUsersRequest(ip, port);
+            if (ip != myIp && port != myPort) {
+                doGetUsersRequest(ip, port);
+            }
      //       }
             portScan(ip);
         }
@@ -81,32 +91,34 @@ function portScan(ip) {
 
     let port = minPort;
     while(port <= maxPort) {
-        let optionsget = {
-            host : ip,
-            port : port,
-            path : '/api/nodes',
-            method : 'GET'
-        };
+        if(ip != myIp && port != myPort) {
+            let optionsget = {
+                host : ip,
+                port : port,
+                path : '/api/nodes',
+                method : 'GET'
+            };
 
-        let reqGET = https.get(optionsget, function(res) {
-            //console.log("statusCode: ", res.statusCode);
-            //console.log("headers: ", res.headers);
-            if (res.statusCode === 200) {
-                res.on('data', function(nodes) {
-                    //     console.info('GET result:\n');
-                    process.stdout.write(nodes);
-                    console.log('');
-                    Node.CheckAndMerge(nodes);
-                    //   console.info('\n\nCall completed');
-                });
-            }
-        });
-        reqGET.end();
+            let reqGET = https.get(optionsget, function(res) {
+                //console.log("statusCode: ", res.statusCode);
+                //console.log("headers: ", res.headers);
+                if (res.statusCode === 200) {
+                    res.on('data', function(nodes) {
+                        //     console.info('GET result:\n');
+                        process.stdout.write(nodes);
+                        console.log('');
+                        Node.CheckAndMerge(nodes);
+                        //   console.info('\n\nCall completed');
+                    });
+                }
+            });
+            reqGET.end();
 
-        reqGET.on('error', function(e) {
-            //  Will get a lot of errors due to servers/nodes going down.
-            //  console.error(e);
-        });
-        port++;
+            reqGET.on('error', function(e) {
+                //  Will get a lot of errors due to servers/nodes going down.
+                //  console.error(e);
+            });
+            port++;
+        }
     }
 }

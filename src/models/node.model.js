@@ -8,8 +8,14 @@ let utility = require('./utility');
 let nodesPath = path.join(__dirname, '..', 'storage', 'nodes.json');
 let http = require('http');
 //let jsonString = fs.readFileSync(namesPath, 'utf8');
+let publicIp = require('public-ip');
 
 
+let myIp;
+let myPort = parseInt(process.env.PORT);
+publicIp.v4().then(ip => {
+    myIp = ip;
+});
 
 let node = {
     getNodes: function (callback) {
@@ -137,37 +143,40 @@ function merge(newNodeList, oldNodeList) {
 
 function sendNodeInfo(node, receiver) {
 
-    node = JSON.stringify(node);
-    // An object of options to indicate where to post to
-    let post_options = {
-        host: node.ip,
-        port: node.port,
-        path: '/api/nodes',
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Content-Length': Buffer.byteLength(node)
-        }
-    };
+    let ip = node.ip;
+    let port = node.port;
+    if(ip != myIp && port != myPort) {
+        node = JSON.stringify(node);
+        // An object of options to indicate where to post to
+        let post_options = {
+            host: ip,
+            port: port,
+            path: '/api/nodes',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Content-Length': Buffer.byteLength(node)
+            }
+        };
 
-    // Set up the request
-    let post_req = http.request(post_options, function(res) {
+        // Set up the request
+        let post_req = http.request(post_options, function (res) {
 
-        res.setEncoding('utf8');
-        /*
-        res.on('data', function (chunk) {
-            console.log('Response: ' + chunk);
+            res.setEncoding('utf8');
+            /*
+             res.on('data', function (chunk) {
+             console.log('Response: ' + chunk);
+             });
+             */
         });
-        */
-    });
 
-    // post the data
-    post_req.write(node);
-    post_req.end();
+        // post the data
+        post_req.write(node);
+        post_req.end();
 
-    post_req.on('error', function(e) {
-        //  Will get a lot of errors due to bad recursive logic
-        //  console.error(e);
-    });
-
+        post_req.on('error', function (e) {
+            //  Will get a lot of errors due to bad recursive logic
+            //  console.error(e);
+        });
+    }
 }
