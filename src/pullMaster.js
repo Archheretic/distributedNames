@@ -118,7 +118,8 @@ function portScan(ip) {
                 //  Will get a lot of errors due to servers/nodes going down.
                 //  console.error(e);
             });
-            port++;
+
         }
+        port++;
     }
 }
