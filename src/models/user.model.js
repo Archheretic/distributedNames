@@ -57,11 +57,45 @@ let user = {
                 return;
             }
             newUsers = JSON.parse(newUsers);
-            _.extend(newUsers, oldUsers);
-            console.log("result ", newUsers);
-            utility.writeToFile(usersPath, JSON.stringify(newUsers));
+            let result = merge(newUsers, oldUsers);
+
+            console.log("result ", result);
+            //newUsers.users = newUsers;
+
+            utility.writeToFile(usersPath, JSON.stringify(result));
         })
     }
 };
 
 module.exports = user;
+
+// basicly same method inn node.model.js, should be put out in a seperate file to avoid code duplicity
+function merge(newUsers, oldUsers) {
+    let unique;
+    let newList = [];
+    let pos;
+    for (let i = 0; i < newUsers.users.length; i++) {
+        unique = true;
+        for (let j = 0; j < oldUsers.users.length; j++) {
+            // console.log("newNodeList.nodes[i] === oldNodeList.nodes[j]");
+            //console.log(JSON.stringify(newNodeList.nodes[i])  + " " + JSON.stringify(oldNodeList.nodes[j]));
+            if (JSON.stringify(newUsers.users[i]) == JSON.stringify(oldUsers.users[j])) {
+                unique = false;
+
+                ///console.log(unique);
+                break;
+            }
+        }
+        if (unique) {
+            //console.log("newNodeList.nodes[i] ", newNodeList.nodes[i]);
+            pos = newList.length;
+            newList[pos] = newUsers.users[i];
+        }
+    }
+    for (let i = 0; i < newList.length; i++) {
+        pos = oldUsers.users.length;
+        //console.log("newList[i] ", newList[i]);
+        oldUsers.users[pos] = newList[i];
+    }
+    return oldUsers;
+}

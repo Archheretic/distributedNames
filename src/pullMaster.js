@@ -47,7 +47,7 @@ function pullNames() {
                 doGetUsersRequest(ip, port);
             }
      //       }
-            portScan(ip);
+          //  portScan(ip);
         }
     });
     setTimeout(pullNames,6000);
@@ -62,7 +62,7 @@ function doGetUsersRequest(ip, port) {
         // path : '/api/users',
         method : 'GET'
     };
-    console.log(optionsget);
+    console.log(ip + ":" + port);
     let reqGET = https.get(optionsget, function(res) {
        // console.log("statusCode: ", res.statusCode);
        // console.log("headers: ", res.headers);
