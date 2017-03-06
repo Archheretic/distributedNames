@@ -54,6 +54,7 @@ function pullNames() {
 }
 
 function doGetUsersRequest(ip, port) {
+
     let optionsget = {
         host : ip,
         port : port,
@@ -61,11 +62,14 @@ function doGetUsersRequest(ip, port) {
         // path : '/api/users',
         method : 'GET'
     };
+    console.log(optionsget);
     let reqGET = https.get(optionsget, function(res) {
        // console.log("statusCode: ", res.statusCode);
        // console.log("headers: ", res.headers);
 
+        // får aldri noe svar, why?
         if (res.statusCode === 200) {
+            console.log(res.statusCode === 200);
             res.on('data', function (users) {
                 //     console.info('GET result:\n');
                 //process.stdout.write(users);
@@ -107,8 +111,8 @@ function portScan(ip) {
                 if (res.statusCode === 200) {
                     res.on('data', function(nodes) {
                         //     console.info('GET result:\n');
-                        process.stdout.write(nodes);
-                        console.log('');
+                        //process.stdout.write(nodes);
+                        //console.log('');
                         Node.CheckAndMerge(nodes);
                         //   console.info('\n\nCall completed');
                     });

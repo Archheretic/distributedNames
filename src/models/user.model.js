@@ -25,7 +25,7 @@ let user = {
                 console.log(err);
             }
             for (let i = 0; i < data.users.length; i++) {
-                console.log("data.users[i] " + JSON.stringify(data.users[i])  + " name " + JSON.stringify(name));
+                //console.log("data.users[i] " + JSON.stringify(data.users[i])  + " name " + JSON.stringify(name));
                 if (JSON.stringify(data.users[i]) == JSON.stringify(name)) {
                     callback({"Message": "Name " + JSON.stringify(name.name) + " already exist"});
                     return;
@@ -51,14 +51,14 @@ let user = {
                 console.log(err);
             }
 
-            //console.log(JSON.stringify(oldUsers));
-            //console.log(newUsers);
+            console.log("oldUsers ", JSON.stringify(oldUsers));
+            console.log("newUsers ", newUsers);
             if(JSON.stringify(oldUsers) === newUsers) {
                 return;
             }
             newUsers = JSON.parse(newUsers);
             _.extend(newUsers, oldUsers);
-            //console.log(newUsers);
+            console.log("result ", newUsers);
             utility.writeToFile(usersPath, JSON.stringify(newUsers));
         })
     }

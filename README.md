@@ -224,7 +224,7 @@ Adds the node to the list of nodes.
 * **Success Response:**
 
   * **Code:** 200 <br />
-    **Content:** `{"Message":"Name John Doe Added"}`
+    **Content:** `{"status":"new node added"}` or `{"status":"node already exist"}`
  
 * **Error Response:**
 

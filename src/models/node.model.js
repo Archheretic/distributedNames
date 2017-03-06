@@ -35,18 +35,14 @@ let node = {
             if (err) {
                 console.log(err);
             }
-            if (JSON.stringify(oldNodeList) === newNodeList) {
+            newNodeList = JSON.parse(newNodeList);
+            if (JSON.stringify(oldNodeList) == JSON.stringify(newNodeList)) {
                 return;
             }
-
-            newNodeList = JSON.parse(newNodeList);
-
+            //console.log("newNodeList ", newNodeList);
+            //console.log("oldNodeList ", oldNodeList);
             let result = merge(newNodeList, oldNodeList);
-
-
-            result = { "nodes": result};
-            console.log(result);
-
+            //console.log("result ", result);
             utility.writeToFile(nodesPath, JSON.stringify(result));
         })
     },
@@ -61,27 +57,34 @@ let node = {
                 console.log(err);
             }
 
+            let exist = false;
             for (let i = 0; i < oldNodeList.nodes.length; i++) {
                 // console.log(JSON.stringify(oldNodeList.nodes[i]));
                 // console.log(JSON.stringify(node));
                 // console.log(JSON.stringify(oldNodeList.nodes[i]) == JSON.stringify(node));
                 if (JSON.stringify(oldNodeList.nodes[i]) == JSON.stringify(node)) {
-                    if (callback) {
-                        callback("node already exist");
-                    }
-                    return; // not unique
-
+                    exist = true;
+                    break;
                 }
             }
             let pos = oldNodeList.nodes.length;
             oldNodeList.nodes[pos] = node;
             //console.log(oldNodeList);
-            utility.writeToFile(nodesPath, JSON.stringify(oldNodeList));
+            let status;
+            if (!exist) {
+                status = "new node added";
+                utility.writeToFile(nodesPath, JSON.stringify(oldNodeList));
+            }
+            else {
+                status = "node already exist";
+            }
             for(let i = 0; i < oldNodeList.nodes.length; i++) {
                  sendNodeInfo(node, oldNodeList.nodes[i]);
             }
+
+            console.log(status);
             if (callback) {
-                callback("new node added"); //litt fusk
+                callback({status}); //litt fusk
             }
         })
     },
@@ -93,29 +96,40 @@ module.exports = node;
 function merge(newNodeList, oldNodeList) {
     let unique;
     let newList = [];
+    let pos;
     for (let i = 0; i < newNodeList.nodes.length; i++) {
         unique = true;
         for (let j = 0; j < oldNodeList.nodes.length; j++) {
            // console.log("newNodeList.nodes[i] === oldNodeList.nodes[j]");
             //console.log(JSON.stringify(newNodeList.nodes[i])  + " " + JSON.stringify(oldNodeList.nodes[j]));
-            if (newNodeList.nodes[i] === oldNodeList.nodes[j]) {
+            if (JSON.stringify(newNodeList.nodes[i]) == JSON.stringify(oldNodeList.nodes[j])) {
                 unique = false;
+
+                ///console.log(unique);
                 break;
             }
         }
         if (unique) {
-            newList[i] = newNodeList.nodes[i];
+            //console.log("newNodeList.nodes[i] ", newNodeList.nodes[i]);
+            pos = newList.length;
+            newList[pos] = newNodeList.nodes[i];
         }
     }
-    return newList;
+    for (let i = 0; i < newList.length; i++) {
+        pos = oldNodeList.nodes.length;
+        //console.log("newList[i] ", newList[i]);
+        oldNodeList.nodes[pos] = newList[i];
+    }
+    return oldNodeList;
 }
 
 function sendNodeInfo(node, receiver) {
-
     let ip = receiver.ip;
     let port = receiver.port;
+
     if(ip != myIp && port != myPort) {
         node = JSON.stringify(node);
+        //console.log(node);
         // An object of options to indicate where to post to
         let post_options = {
             host: ip,
@@ -146,7 +160,7 @@ function sendNodeInfo(node, receiver) {
         post_req.end();
 
         post_req.on('error', function (e) {
-            //  Will get a lot of errors due to bad recursive logic
+            //  Will get a lot of errors due to inactive servers
             //  console.error(e);
         });
     }
