@@ -57,7 +57,8 @@ function doGetUsersRequest(ip, port) {
     let optionsget = {
         host : ip,
         port : port,
-        path : '/api/users',
+        path : '/list',
+        // path : '/api/users',
         method : 'GET'
     };
     let reqGET = https.get(optionsget, function(res) {
@@ -95,7 +96,8 @@ function portScan(ip) {
             let optionsget = {
                 host : ip,
                 port : port,
-                path : '/api/nodes',
+                path : '/nodes',
+                // path : '/api/nodes',
                 method : 'GET'
             };
 

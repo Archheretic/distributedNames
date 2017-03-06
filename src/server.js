@@ -31,9 +31,10 @@ app.use(function(req, res, next) {
     next();
 });
 
-app.use('/api/users', users);
-app.use('/api/nodes', nodes);
-
+//app.use('/api/users', users);
+//app.use('/api/nodes', nodes);
+app.use('/list', users);
+app.use('/nodes', nodes);
 
 app.get('/',function(req,res){
     res.sendFile(path.join(__dirname+'/views/home.html'));
