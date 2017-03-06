@@ -60,6 +60,7 @@ let node = {
             if (err) {
                 console.log(err);
             }
+
             for (let i = 0; i < oldNodeList.nodes.length; i++) {
                 // console.log(JSON.stringify(oldNodeList.nodes[i]));
                 // console.log(JSON.stringify(node));
@@ -68,9 +69,8 @@ let node = {
                     if (callback) {
                         callback("node already exist");
                     }
-                    else {
-                        return; // not unique
-                    }
+                    return; // not unique
+
                 }
             }
             let pos = oldNodeList.nodes.length;
@@ -112,8 +112,8 @@ function merge(newNodeList, oldNodeList) {
 
 function sendNodeInfo(node, receiver) {
 
-    let ip = node.ip;
-    let port = node.port;
+    let ip = receiver.ip;
+    let port = receiver.port;
     if(ip != myIp && port != myPort) {
         node = JSON.stringify(node);
         // An object of options to indicate where to post to
@@ -141,6 +141,7 @@ function sendNodeInfo(node, receiver) {
         });
 
         // post the data
+        //console.log(node);
         post_req.write(node);
         post_req.end();
 

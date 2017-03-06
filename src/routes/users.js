@@ -12,7 +12,7 @@ router.get('/', function(req, res) {
 });
 
 router.post('/', function(req, res) {
-    User.addUser(req.body.name, (status) => {
+    User.addUser(req.body, (status) => {
         res.json(status);
     });
 });

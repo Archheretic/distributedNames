@@ -17,7 +17,7 @@ router.get('/', function(req, res) {
 });
 
 router.post('/', function(req, res) {
-    Node.CheckAndAdd( (status) =>{
+    Node.CheckAndAdd(req.body, (status) =>{
         res.json(status);
     });
 });

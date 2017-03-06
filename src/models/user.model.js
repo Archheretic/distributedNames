@@ -24,12 +24,20 @@ let user = {
             if (err) {
                 console.log(err);
             }
+            for (let i = 0; i < data.users.length; i++) {
+                console.log("data.users[i] " + JSON.stringify(data.users[i])  + " name " + JSON.stringify(name));
+                if (JSON.stringify(data.users[i]) == JSON.stringify(name)) {
+                    callback({"Message": "Name " + JSON.stringify(name.name) + " already exist"});
+                    return;
+                }
+            }
+
             let pos = data.users.length;
-            data.users[pos] = { "name": name };
+            data.users[pos] = name;
             users = JSON.stringify(data);
             utility.writeToFile(usersPath, users);
 
-            callback({"Message": "Name " + name + " Added"});
+            callback({"Message": "Name " + JSON.stringify(name.name) + " Added"});
         })
     },
 
@@ -57,4 +65,3 @@ let user = {
 };
 
 module.exports = user;
-
