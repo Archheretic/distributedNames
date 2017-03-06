@@ -49,13 +49,12 @@ $ NODE_ENV=dev PORT=8020 node --use_strict src/server.js
 
 ## API Overview
 
-For more detailed Api documentation look at...
 API Endpoint | Description
 ------------ | -------------
 /list | GET - A list containing all registered names
 /list | POST - Adds the new name to the list.
 /nodes | GET - Updates a parkinglot
-/nodes | POST - Compares the node list provided, with the existing list of nodes, and adds the missing nodes.
+/nodes | POST - Adds a new node to the list.
 
 ## API Documentation
 
