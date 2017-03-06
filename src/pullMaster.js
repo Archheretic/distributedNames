@@ -47,7 +47,7 @@ function pullNames() {
                 doGetUsersRequest(ip, port);
             }
      //       }
-          //  portScan(ip);
+            portScan(ip);
         }
     });
     setTimeout(pullNames,6000);
@@ -62,14 +62,12 @@ function doGetUsersRequest(ip, port) {
         // path : '/api/users',
         method : 'GET'
     };
-    console.log(ip + ":" + port);
     let reqGET = https.get(optionsget, function(res) {
        // console.log("statusCode: ", res.statusCode);
        // console.log("headers: ", res.headers);
 
-        // får aldri noe svar, why?
         if (res.statusCode === 200) {
-            console.log(res.statusCode === 200);
+      //      console.log(res.statusCode === 200);
             res.on('data', function (users) {
                 //     console.info('GET result:\n');
                 //process.stdout.write(users);
