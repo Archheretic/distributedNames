@@ -17,6 +17,11 @@
 
 In this project...
 
+How it works:
+At program startup the servers IP and port is sent to the nodes in the pre-existing node list.
+Every 6 seconds it pulls down the names from the other nodes, compare it with the existing list and adds the new names.
+Every 6 seconds the program does a port scan on port 8000-8999 on all known nodes to discover potential new nodes.
+
 ## Installation
 
 This application requires Node.js. If you dont have Node.js go to https://nodejs.org/en/ for further instruction.
