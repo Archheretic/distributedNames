@@ -59,7 +59,7 @@ API Endpoint | Description
 ------------ | -------------
 /list | GET - A list containing all registered names
 /list | POST - Adds the new name to the list.
-/nodes | GET - Updates a parkinglot
+/nodes | GET - A list containing all nodes.
 /nodes | POST - Adds a new node to the list.
 
 ## API Documentation
