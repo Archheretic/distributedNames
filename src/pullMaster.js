@@ -22,7 +22,19 @@ let maxPort = 8999;
 
 let pullMaster = {
     start: function() {
-      pullNames();
+
+        // waits 3 seconds and then starts pulling down node list every 6 seconds.
+        setTimeout(function () {
+            setInterval(function () {
+                pullNodes();
+            }, 6000);
+        }, 3000);
+
+        // pulls down name lists every 6 seconds.
+        setInterval(function () {
+            pullNames();
+        }, 6000);
+
     //  this.pullNodes();
     }
 };
@@ -30,7 +42,8 @@ let pullMaster = {
 module.exports = pullMaster;
 
 function pullNames() {
-    console.log("It has been six seconds!");
+    console.log("pull name lists");
+
     fs.readFile(nodesPath, 'utf8', function (err, data) {
         if (err) throw err;
         let obj = JSON.parse(data);
@@ -46,15 +59,25 @@ function pullNames() {
             if (ip != myIp && port != myPort) {
                 doGetUsersRequest(ip, port);
             }
-     //       }
+        }
+    });
+}
+
+function pullNodes() {
+    console.log("pull node lists");
+
+    fs.readFile(nodesPath, 'utf8', function (err, data) {
+        if (err) throw err;
+        let obj = JSON.parse(data);
+        let ip;
+        for (let i = 0, len = obj.nodes.length; i < len; i++) {
+            ip = obj.nodes[i].ip;
             portScan(ip);
         }
     });
-    setTimeout(pullNames,6000);
 }
 
 function doGetUsersRequest(ip, port) {
-
     let optionsget = {
         host : ip,
         port : port,

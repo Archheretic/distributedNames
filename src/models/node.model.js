@@ -41,8 +41,11 @@ let node = {
             }
             //console.log("newNodeList ", newNodeList);
             //console.log("oldNodeList ", oldNodeList);
+            let oldCount = oldNodeList.nodes.length;
             let result = merge(newNodeList, oldNodeList);
-            //console.log("result ", result);
+            if (oldCount == result.nodes.length) {
+                return;
+            }
             utility.writeToFile(nodesPath, JSON.stringify(result));
         })
     },

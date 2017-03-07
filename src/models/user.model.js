@@ -50,18 +50,19 @@ let user = {
             if (err) {
                 console.log(err);
             }
-
-            console.log("oldUsers ", JSON.stringify(oldUsers));
             console.log("newUsers ", newUsers);
             if(JSON.stringify(oldUsers) === newUsers) {
                 return;
             }
             newUsers = JSON.parse(newUsers);
+            let oldCount =  oldUsers.users.length;
             let result = merge(newUsers, oldUsers);
 
-            console.log("result ", result);
+            console.log("result ", JSON.stringify(result));
+            if (oldCount === result.users.length) {
+                return;
+            }
             //newUsers.users = newUsers;
-
             utility.writeToFile(usersPath, JSON.stringify(result));
         })
     }
