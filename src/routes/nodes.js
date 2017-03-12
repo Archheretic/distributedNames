@@ -11,13 +11,28 @@ let nodesPath = path.join(__dirname, '..', 'storage', 'nodes.json');
 //let jsonString = fs.readFileSync(namesPath, 'utf8');
 
 router.get('/', function(req, res) {
-    Node.getNodes( (result) =>{ // ugly
-        res.json(result);
+    Node.getNodes((err, result) => { // ugly
+        if (err) {
+            res.status(500).send({
+                Message: err
+            });
+        }
+        else {
+            res.json(result);
+        }
     });
 });
 
 router.post('/', function(req, res) {
-    Node.CheckAndAdd(req.body, (status) =>{
+    Node.CheckAndAdd(req.body, (err,status) =>{
+        if (err) {
+            res.status(500).send({
+                Message: err
+            });
+        }
+        else {
+            res.json(result);
+        }
         res.json(status);
     });
 });

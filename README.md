@@ -93,9 +93,13 @@ API Endpoint | Description
   * **Code:** 200 <br />
     **Content:** `{"users":[{"name":"Ole"},{"name":"Dole"},{"name":"Doffen"}]}`
     
+  * **Code:** 304 <br />
+    **Content:** `{"users":[{"name":"Ole"},{"name":"Dole"},{"name":"Doffen"}]}`
+    
 * **Error Response:**
 
-  There are no error handling, so don't crash it!
+  * **Code:** 500 <br />
+    **Content:** `{Message: "error message"}`
  
 * **Sample Call:**
 
@@ -141,7 +145,8 @@ API Endpoint | Description
  
 * **Error Response:**
 
-  There are no error handling, so don't crash it!
+  * **Code:** 500 <br />
+    **Content:** `{Message: "error message"}`
 
 * **Sample Call:**
 
@@ -186,9 +191,14 @@ API Endpoint | Description
   * **Code:** 200 <br />
     **Content:** `{"nodes":[{"ip":"158.37.63.8","port":8000},{"ip":"100.00.12.4","port":8080}`
     
+    
+  * **Code:** 304 <br />
+    **Content:** `{"users":[{"name":"Ole"},{"name":"Dole"},{"name":"Doffen"}]}`
+    
 * **Error Response:**
 
-  There are no error handling, so don't crash it!
+  * **Code:** 500 <br />
+    **Content:** `{Message: "error message"}`
  
 * **Sample Call:**
 
@@ -234,7 +244,8 @@ Adds the node to the list of nodes.
  
 * **Error Response:**
 
-  There are no error handling, so don't crash it!
+  * **Code:** 500 <br />
+    **Content:** `{Message: "error message"}`
 
 * **Sample Call:**
 

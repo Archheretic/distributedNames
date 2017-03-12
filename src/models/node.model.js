@@ -19,11 +19,20 @@ publicIp.v4().then(ip => {
 
 let node = {
     getNodes: function (callback) {
-        fs.readFile(nodesPath, 'utf8', function (err, data) {
-            if (err) throw err;
-            let nodes = JSON.parse(data);
-            callback(nodes);
-        });
+        try {
+            fs.readFile(nodesPath, 'utf8', function (err, data) {
+                try {
+                    let nodes = JSON.parse(data);
+                    callback(err, nodes);
+                }
+                catch (err) {
+                    callback(err);
+                }
+            });
+        }
+        catch (err) {
+            callback(err);
+        }
     },
 
     /**
@@ -31,11 +40,21 @@ let node = {
      * duplicates.
      */
     CheckAndMerge: function(newNodeList, callback) {
-        this.getNodes( (oldNodeList, err) => {
+        this.getNodes( (err, oldNodeList) => {
             if (err) {
                 console.log(err);
+                return;
             }
-            newNodeList = JSON.parse(newNodeList);
+            try {
+                newNodeList = JSON.parse(newNodeList);
+                // if these are undefined then there is a miss match between the distributed systems
+                test1 = newNodeList.nodes[0].port;
+                test2 = newNodeList.nodes[0].ip;
+            }
+            catch (err) {
+                console.log("Bad integration between distributed systems.\nError msg:  msg: ", err);
+                return;
+            }
             if (JSON.stringify(oldNodeList) == JSON.stringify(newNodeList)) {
                 return;
             }
@@ -55,9 +74,19 @@ let node = {
      * with its own information to the other systems.
      * */
     CheckAndAdd: function(node, callback) {
-        this.getNodes( (oldNodeList, err) => {
+        this.getNodes( ( err, oldNodeList) => {
             if (err) {
                 console.log(err);
+                callback(err);
+                return;
+            }
+
+            if (!node.port || !node.ip) {
+                if (callback) {
+                    callback("Error: node.port or node.ip is not defined");
+                }
+                console.log("Error: node.port or node.ip is not defined")
+                return;
             }
 
             let exist = false;
@@ -82,12 +111,12 @@ let node = {
                 status = "node already exist";
             }
             for(let i = 0; i < oldNodeList.nodes.length; i++) {
+                // sends its ip and port to other nodes regardless if it already exists or not
                  sendNodeInfo(node, oldNodeList.nodes[i]);
             }
-
             console.log(status);
             if (callback) {
-                callback({status}); //litt fusk
+                callback(err, {status});
             }
         })
     },
@@ -107,7 +136,6 @@ function merge(newNodeList, oldNodeList) {
             //console.log(JSON.stringify(newNodeList.nodes[i])  + " " + JSON.stringify(oldNodeList.nodes[j]));
             if (JSON.stringify(newNodeList.nodes[i]) == JSON.stringify(oldNodeList.nodes[j])) {
                 unique = false;
-
                 ///console.log(unique);
                 break;
             }

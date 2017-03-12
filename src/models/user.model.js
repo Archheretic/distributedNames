@@ -12,22 +12,32 @@ let usersPath = path.join(__dirname, '..', 'storage', 'users.json');
 
 let user = {
     getUsers: function (callback) {
-        fs.readFile(usersPath, 'utf8', function (err, data) {
-            if (err) throw err;
-            let users = JSON.parse(data);
-            callback(users);
-        });
+        try {
+            fs.readFile(usersPath, 'utf8', function (err, data) {
+                try {
+                    let users = JSON.parse(data);
+                    callback(err, users);
+                }
+                catch (err) {
+                    callback(err);
+                }
+            });
+        }
+        catch (err) {
+            callback(err);
+        }
     },
 
     addUser: function(name, callback) {
-        this.getUsers( (data, err) => {
+        this.getUsers( (err, data) => {
             if (err) {
-                console.log(err);
+                callback(err);
+                return;
             }
             for (let i = 0; i < data.users.length; i++) {
                 //console.log("data.users[i] " + JSON.stringify(data.users[i])  + " name " + JSON.stringify(name));
                 if (JSON.stringify(data.users[i]) == JSON.stringify(name)) {
-                    callback({"Message": "Name " + JSON.stringify(name.name) + " already exist"});
+                    callback(err, {"Message": "Name " + JSON.stringify(name.name) + " already exist"});
                     return;
                 }
             }
@@ -36,8 +46,8 @@ let user = {
             data.users[pos] = name;
             users = JSON.stringify(data);
             utility.writeToFile(usersPath, users);
+            callback(err, {"Message": "Name " + JSON.stringify(name.name) + " Added"}); // litt fusk
 
-            callback({"Message": "Name " + JSON.stringify(name.name) + " Added"});
         })
     },
 
@@ -46,7 +56,7 @@ let user = {
      * duplicates.
      */
     CheckAndAdd: function(newUsers, callback) {
-        this.getUsers( (oldUsers, err) => {
+        this.getUsers( (err, oldUsers) => {
             if (err) {
                 console.log(err);
             }
@@ -54,7 +64,15 @@ let user = {
             if(JSON.stringify(oldUsers) === newUsers) {
                 return;
             }
-            newUsers = JSON.parse(newUsers);
+            try {
+                newUsers = JSON.parse(newUsers);
+                // if undefined then there is a miss match between the distributed systems
+                let test = newUsers.users[0];
+            }
+            catch (err) {
+                console.log("Bad integration between distributed systems.\nError msg: ", err);
+                return;
+            }
             let oldCount =  oldUsers.users.length;
             let result = merge(newUsers, oldUsers);
 
@@ -63,6 +81,7 @@ let user = {
                 return;
             }
             //newUsers.users = newUsers;
+
             utility.writeToFile(usersPath, JSON.stringify(result));
         })
     }

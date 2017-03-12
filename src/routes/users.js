@@ -6,14 +6,28 @@ let router = express.Router();
 let User = require('../models/user.model');
 
 router.get('/', function(req, res) {
-    User.getUsers( (result) => {// (err, users) =>{
-        res.json(result);
+    User.getUsers( (err, result) => {// (err, users) =>{
+        if (err) {
+            res.status(500).send({
+                Message: err
+            });
+        }
+        else {
+            res.json(result);
+        }
     });
 });
 
 router.post('/', function(req, res) {
-    User.addUser(req.body, (status) => {
-        res.json(status);
+    User.addUser(req.body, (err, result) => {
+        if (err) {
+            res.status(500).send({
+                Message: err
+            });
+        }
+        else {
+            res.json(result);
+        }
     });
 });
 
