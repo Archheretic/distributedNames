@@ -45,7 +45,10 @@ function pullNames() {
     console.log("pull name lists");
 
     fs.readFile(nodesPath, 'utf8', function (err, data) {
-        if (err) throw err;
+        if (err) {
+            console.log(err);
+            return;
+        }
         let obj = JSON.parse(data);
         let ip;
         let port;
@@ -67,7 +70,10 @@ function pullNodes() {
     console.log("pull node lists");
 
     fs.readFile(nodesPath, 'utf8', function (err, data) {
-        if (err) throw err;
+        if (err) {
+            console.log(err);
+            return;
+        }
         let obj = JSON.parse(data);
         let ip;
         for (let i = 0, len = obj.nodes.length; i < len; i++) {
