@@ -89,6 +89,16 @@ let node = {
                 return;
             }
 
+            try {
+                // if this failed there has been an uncatched error when reading from file.
+                let test = oldNodeList.nodes.length;
+            }
+
+            catch (err) {
+                console.log(err);
+            }
+
+
             let exist = false;
             for (let i = 0; i < oldNodeList.nodes.length; i++) {
                 // console.log(JSON.stringify(oldNodeList.nodes[i]));

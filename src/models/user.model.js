@@ -73,7 +73,14 @@ let user = {
                 console.log("Bad integration between distributed systems.\nError msg: ", err);
                 return;
             }
-            let oldCount =  oldUsers.users.length;
+            let oldCount;
+            try {
+                oldCount =  oldUsers.users.length;
+            }
+            catch (err) {
+                console.log(err);
+                return;
+            }
             let result = merge(newUsers, oldUsers);
 
             console.log("result ", JSON.stringify(result));
