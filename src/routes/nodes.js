@@ -24,7 +24,7 @@ router.get('/', function(req, res) {
 });
 
 router.post('/', function(req, res) {
-    Node.CheckAndAdd(req.body, (err,status) =>{
+    Node.CheckAndAdd(req.body, (err,result) =>{
         if (err) {
             res.status(500).send({
                 Message: err
@@ -33,7 +33,6 @@ router.post('/', function(req, res) {
         else {
             res.json(result);
         }
-        res.json(status);
     });
 });
 
