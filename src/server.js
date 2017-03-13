@@ -20,7 +20,7 @@ let startup = require('./startup');
 startup.checkIfRegister();
 let app = express();
 
-process.env.PORT = process.env.PORT || 8001;
+process.env.PORT = process.env.PORT || 8000;
 
 
 app.use(bodyParser.urlencoded({ extended: true }));
