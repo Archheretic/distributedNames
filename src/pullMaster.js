@@ -59,7 +59,7 @@ function pullNames() {
      // if we go back to ports
     //        for (let port = 0; port < ports.length; port++)
     //        {
-            if (ip != myIp && port != myPort) {
+            if (ip != myIp || port != myPort) {
                 doGetUsersRequest(ip, port);
             }
         }
@@ -123,7 +123,7 @@ function portScan(ip) {
 
     let port = minPort;
     while(port <= maxPort) {
-        if(ip != myIp && port != myPort) {
+        if(ip != myIp || port != myPort) {
             let optionsget = {
                 host : ip,
                 port : port,

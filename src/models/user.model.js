@@ -34,15 +34,18 @@ let user = {
                 callback(err);
                 return;
             }
+            name.name = name.name.trim();
+            console.log(name);
             for (let i = 0; i < data.users.length; i++) {
                 //console.log("data.users[i] " + JSON.stringify(data.users[i])  + " name " + JSON.stringify(name));
-                if (JSON.stringify(data.users[i]) == JSON.stringify(name)) {
-                    callback(err, {"Message": "Name " + JSON.stringify(name.name) + " already exist"});
+                if (JSON.stringify(data.users[i]).toUpperCase() === JSON.stringify(name).toUpperCase()) {
+                    callback(err, {"Message": "Name " + JSON.stringify(name.name).trim() + " already exist"});
                     return;
                 }
             }
 
             let pos = data.users.length;
+
             data.users[pos] = name;
             users = JSON.stringify(data);
             utility.writeToFile(usersPath, users);
@@ -101,12 +104,13 @@ function merge(newUsers, oldUsers) {
     let unique;
     let newList = [];
     let pos;
+    let newUser;
     for (let i = 0; i < newUsers.users.length; i++) {
         unique = true;
         for (let j = 0; j < oldUsers.users.length; j++) {
-            // console.log("newNodeList.nodes[i] === oldNodeList.nodes[j]");
-            //console.log(JSON.stringify(newNodeList.nodes[i])  + " " + JSON.stringify(oldNodeList.nodes[j]));
-            if (JSON.stringify(newUsers.users[i]) == JSON.stringify(oldUsers.users[j])) {
+            newUser = newUsers.users[i];
+            newUser.name = newUser.name.trim();
+            if (JSON.stringify(newUser).toUpperCase() === JSON.stringify(oldUsers.users[j]).toUpperCase()) {
                 unique = false;
 
                 ///console.log(unique);
@@ -116,7 +120,7 @@ function merge(newUsers, oldUsers) {
         if (unique) {
             //console.log("newNodeList.nodes[i] ", newNodeList.nodes[i]);
             pos = newList.length;
-            newList[pos] = newUsers.users[i];
+            newList[pos] = newUser;
         }
     }
     for (let i = 0; i < newList.length; i++) {
