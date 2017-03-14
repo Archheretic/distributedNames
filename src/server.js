@@ -16,8 +16,6 @@ let pullMaster = require("./pullMaster");
 let startup = require('./startup');
 
 
-
-
 startup.checkIfRegister();
 let app = express();
 

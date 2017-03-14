@@ -197,7 +197,7 @@ API Endpoint | Description
     **Content:** `{"nodes":[{"ip":"158.37.63.8","port":8000},{"ip":"100.00.12.4","port":8080}`
     
   * **Code:** 304 <br />
-    **Content:** `{"users":[{"name":"Ole"},{"name":"Dole"},{"name":"Doffen"}]}`
+    **Content:** `{"nodes":[{"ip":"158.37.63.8","port":8000},{"ip":"100.00.12.4","port":8080}`
     
 * **Error Response:**
 
