@@ -28,7 +28,7 @@
 
         var xhttp = new XMLHttpRequest();
         var name = { "name": input };
-        var url = window.location.href + "list";
+        var url = window.location.href + "register";
         xhttp.open("POST", url, true);
         xhttp.setRequestHeader("Content-type", "application/json");
         xhttp.send(JSON.stringify(name));

@@ -63,7 +63,7 @@ $ NODE_ENV=dev PORT=8020 node --use_strict src/server.js
 API Endpoint | Description
 ------------ | -------------
 /list | GET - A list containing all registered names
-/list | POST - Adds the new name to the list.
+/register | POST - Adds the new name to the list.
 /nodes | GET - A list containing all nodes.
 /nodes | POST - Adds a new node to the list.
 
@@ -125,7 +125,7 @@ API Endpoint | Description
 
 * **URL**
 
-  /list
+  /register
 
 * **Method:**
 
@@ -195,7 +195,6 @@ API Endpoint | Description
 
   * **Code:** 200 <br />
     **Content:** `{"nodes":[{"ip":"158.37.63.8","port":8000},{"ip":"100.00.12.4","port":8080}`
-    
     
   * **Code:** 304 <br />
     **Content:** `{"users":[{"name":"Ole"},{"name":"Dole"},{"name":"Doffen"}]}`

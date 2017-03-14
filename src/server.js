@@ -11,6 +11,7 @@ let path = require("path");
 // Our files
 let users = require("./routes/users");
 let nodes = require("./routes/nodes");
+let register = require("./routes/register");
 let pullMaster = require("./pullMaster");
 let startup = require('./startup');
 
@@ -38,6 +39,8 @@ app.use(function(req, res, next) {
 //app.use('/api/nodes', nodes);
 app.use('/list', users);
 app.use('/nodes', nodes);
+app.use('/register', register);
+
 
 app.get('/',function(req,res){
     res.sendFile(path.join(__dirname+'/views/home.html'));
