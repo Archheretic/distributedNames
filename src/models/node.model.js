@@ -74,9 +74,11 @@ let node = {
      * with its own information to the other systems.
      * */
     CheckAndAdd: function(node, callback) {
+
         this.getNodes( ( err, oldNodeList) => {
             if (err) {
                 console.log(err);
+                console.log(callback);
                 callback(err);
                 return;
             }

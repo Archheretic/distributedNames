@@ -20,7 +20,6 @@ let utility = {
             callback();
         }
     }
-
 };
 
 module.exports = utility;

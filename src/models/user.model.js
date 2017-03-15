@@ -34,12 +34,11 @@ let user = {
                 callback(err);
                 return;
             }
-            name.name = name.name.trim();
-            console.log(name);
+            name.name = cleanUpName(name.name);
             for (let i = 0; i < data.users.length; i++) {
                 //console.log("data.users[i] " + JSON.stringify(data.users[i])  + " name " + JSON.stringify(name));
                 if (JSON.stringify(data.users[i]).toUpperCase() === JSON.stringify(name).toUpperCase()) {
-                    callback(err, {"Message": "Name " + JSON.stringify(name.name).trim() + " already exist"});
+                    callback(err, {"Message": "Name " + JSON.stringify(name.name) + " already exist"});
                     return;
                 }
             }
@@ -91,7 +90,6 @@ let user = {
                 return;
             }
             //newUsers.users = newUsers;
-
             utility.writeToFile(usersPath, JSON.stringify(result));
         })
     }
@@ -107,12 +105,12 @@ function merge(newUsers, oldUsers) {
     let newUser;
     for (let i = 0; i < newUsers.users.length; i++) {
         unique = true;
+        newUser = newUsers.users[i];
+        newUser.name = cleanUpName(newUsers.users[i].name);
         for (let j = 0; j < oldUsers.users.length; j++) {
-            newUser = newUsers.users[i];
-            newUser.name = newUser.name.trim();
+
             if (JSON.stringify(newUser).toUpperCase() === JSON.stringify(oldUsers.users[j]).toUpperCase()) {
                 unique = false;
-
                 ///console.log(unique);
                 break;
             }
@@ -129,4 +127,17 @@ function merge(newUsers, oldUsers) {
         oldUsers.users[pos] = newList[i];
     }
     return oldUsers;
+}
+
+function cleanUpName(name) {
+    let tmp = name.trim().split(/\s+/);
+    let firstName = tmp[0].replace(/[^A-Za-z]/g,'');
+    name = firstName;
+    if (tmp.length > 1) {
+        let lastName = tmp[1].replace(/[^A-Za-z]/g,'');
+        name += " " + lastName;
+    }
+    let maxLength = 80;
+    name = name.substring(0, maxLength);
+    return name;
 }

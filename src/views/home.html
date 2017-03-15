@@ -35,7 +35,7 @@
         xhttp.onload = function() {
             var message = JSON.parse(xhttp.responseText);
             console.log(message);
-            if(typeof message.Message === 'string') {
+            if(typeof message.Message === "string") {
                 message = message.Message;
             }
             else {

@@ -4,6 +4,7 @@
   "main": "server.js",
   "license": "MIT",
   "dependencies": {
+    "async": "^2.1.5",
     "body-parser": "latest",
     "express": "latest",
     "fs": "0.0.1-security",

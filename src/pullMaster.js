@@ -7,7 +7,7 @@ let nodesPath = path.join(__dirname, 'storage', 'nodes.json');
 let fs = require('fs');
 let User = require('./models/user.model');
 let Node = require('./models/node.model');
-let https = require('http');
+let http = require('http');
 let publicIp = require('public-ip');
 
 
@@ -91,7 +91,7 @@ function doGetUsersRequest(ip, port) {
         // path : '/api/users',
         method : 'GET'
     };
-    let reqGET = https.get(optionsget, function(res) {
+    let reqGET = http.get(optionsget, function(res) {
        // console.log("statusCode: ", res.statusCode);
        // console.log("headers: ", res.headers);
 
@@ -132,7 +132,7 @@ function portScan(ip) {
                 method : 'GET'
             };
 
-            let reqGET = https.get(optionsget, function(res) {
+            let reqGET = http.get(optionsget, function(res) {
                 //console.log("statusCode: ", res.statusCode);
                 //console.log("headers: ", res.headers);
                 if (res.statusCode === 200) {
