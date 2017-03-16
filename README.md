@@ -53,7 +53,7 @@ $ NODE_ENV=dev nodejs --use_strict src/server.js
 To change from default port, use the env variable PORT as in the example below, 
 keep in mind that only port 8000-8999 is supported.
 ```sh
-$ NODE_ENV=dev PORT=8020 node --use_strict src/server.js
+$ NODE_ENV=dev PORT=8020 nodejs --use_strict src/server.js
 ```
 
 
