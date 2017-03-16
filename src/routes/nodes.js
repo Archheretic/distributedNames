@@ -143,6 +143,9 @@ function testGetList(ip, port, callback) {
 function usersValid(newUsers) {
     try {
         newUsers = JSON.parse(newUsers);
+        if (newUsers.users.length < 2) {
+            return false;
+        }
         for (let i = 0; i < newUsers.users.length; i++) {
             let user = newUsers.users[i];
             console.log("user ", user);
@@ -162,6 +165,9 @@ function nodesValid(newNodes) {
     try {
         console.log("inside nodesValid");
         newNodes = JSON.parse(newNodes);
+        if (newNodes.nodes.length < 2) {
+            return false;
+        }
         for (let i = 0; i < newNodes.nodes.length; i++) {
             let node = newNodes.nodes[i];
             if (typeof node.ip !== "string") {
