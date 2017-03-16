@@ -58,6 +58,7 @@ function authenticateNode(req, res, callback) {
     asyncTasks.push(function(callback) {
         testGetNodes(ip, port, function(err, result) {
             getNodeWorking = result;
+            console.log("asyncTasks testGetNodes ", getNodeWorking);
             callback();
         });
     });
@@ -65,9 +66,11 @@ function authenticateNode(req, res, callback) {
     async.parallel(asyncTasks, function(){
         // All tasks are done now
         if (getListWorking && getNodeWorking) {
+            console.log("inside async.parallel if");
             callback(req, res);
         }
         else {
+            console.log("inside async.parallel else");
             let message = "Following Api endpoint are not following standards:\n";
             if (!getListWorking) {
                 message += "GET /list\n";
@@ -75,6 +78,7 @@ function authenticateNode(req, res, callback) {
             if (!getNodeWorking) {
                 message += "GET /nodes";
             }
+            console.log(message);
             return res.status(403).send({
                 success: false,
                 message: message
@@ -139,8 +143,9 @@ function testGetList(ip, port, callback) {
 function usersValid(newUsers) {
     try {
         newUsers = JSON.parse(newUsers);
-        for (let i = 0; i < newUsers.length; i++) {
+        for (let i = 0; i < newUsers.users.length; i++) {
             let user = newUsers.users[i];
+            console.log("user ", user);
             if (typeof user.name !== "string") {
                 return false;
             }
@@ -155,13 +160,22 @@ function usersValid(newUsers) {
 
 function nodesValid(newNodes) {
     try {
+        console.log("inside nodesValid");
         newNodes = JSON.parse(newNodes);
-        for (let i = 0; i < newNodes.length; i++) {
+        for (let i = 0; i < newNodes.nodes.length; i++) {
             let node = newNodes.nodes[i];
             if (typeof node.ip !== "string") {
+                console.log("node.ip !== string");
                 return false;
             }
-            if (typeof node.port !== "number") {
+
+            if(!ValidateIPaddress(node.ip)) {
+                return false;
+            }
+
+            if (isNaN(node.port)) {
+                console.log(node.port);
+                console.log("node.ip !== number");
                 return false;
             }
         }
@@ -171,4 +185,15 @@ function nodesValid(newNodes) {
         console.log("Bad integration between distributed systems.\nError msg: ", err);
         return false;
     }
+}
+
+// taken from http://www.w3resource.com/javascript/form/ip-address-validation.php
+function ValidateIPaddress(ip)
+{
+    let ipformat = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+    if(ip.match(ipformat))
+    {
+        return true;
+    }
+    return false;
 }

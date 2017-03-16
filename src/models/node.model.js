@@ -154,8 +154,15 @@ function merge(newNodeList, oldNodeList) {
         }
         if (unique) {
             //console.log("newNodeList.nodes[i] ", newNodeList.nodes[i]);
+            let newNode = newNodeList.nodes[i];
+            try {
+                newNode.port = parseInt(newNode.port);
+            }
+            catch (e) {
+                break;
+            }
             pos = newList.length;
-            newList[pos] = newNodeList.nodes[i];
+            newList[pos] = newNode;
         }
     }
     for (let i = 0; i < newList.length; i++) {
