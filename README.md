@@ -150,9 +150,6 @@ API Endpoint | Description
  
 * **Error Response:**
 
-  * **Code:** 403 <br />
-    **Content:** `{Message: "The reason for why it was forbidden"}`
-
   * **Code:** 500 <br />
     **Content:** `{Message: "error message"}`
 
@@ -251,6 +248,9 @@ Adds the node to the list of nodes.
  
 * **Error Response:**
 
+  * **Code:** 403 <br />
+    **Content:** `{Message: "The reason for why it was forbidden"}`
+
   * **Code:** 500 <br />
     **Content:** `{Message: "error message"}`
 
@@ -258,7 +258,7 @@ Adds the node to the list of nodes.
 
   ```javascript
     $.ajax({
-      url: "/list",
+      url: "/nodes",
       dataType: "json",
       type : "POST",
       Data: '{"ip":"10.10.10.10","port":8010}',
