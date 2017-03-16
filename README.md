@@ -150,6 +150,9 @@ API Endpoint | Description
  
 * **Error Response:**
 
+  * **Code:** 403 <br />
+    **Content:** `{Message: "The reason for why it was forbidden"}`
+
   * **Code:** 500 <br />
     **Content:** `{Message: "error message"}`
 

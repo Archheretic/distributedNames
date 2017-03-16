@@ -178,6 +178,10 @@ function nodesValid(newNodes) {
                 console.log("node.ip !== number");
                 return false;
             }
+
+            if (node.port < 1 || node.port > 65535) {
+                return false;
+            }
         }
         return true;
     }
@@ -188,8 +192,7 @@ function nodesValid(newNodes) {
 }
 
 // taken from http://www.w3resource.com/javascript/form/ip-address-validation.php
-function ValidateIPaddress(ip)
-{
+function ValidateIPaddress(ip) {
     let ipformat = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
     if(ip.match(ipformat))
     {

@@ -131,10 +131,11 @@ function merge(newUsers, oldUsers) {
 
 function cleanUpName(name) {
     let tmp = name.trim().split(/\s+/);
-    let firstName = tmp[0].replace(/[^A-Za-z]/g,'');
+                                    // keeps all latin variations of letters, and remove other unwanted characters.
+    let firstName = tmp[0].replace(/[^a-z\xC0-\xD6\xD8-\xDE\u0100-\u017F\u0180-\u024F]/gi,'');
     name = firstName;
-    if (tmp.length > 1) {
-        let lastName = tmp[1].replace(/[^A-Za-z]/g,'');
+    if (tmp.length > 1) {           // keeps all latin variations of letters, and remove other unwanted characters.
+        let lastName = tmp[1].replace(/[^a-z\xC0-\xD6\xD8-\xDE\u0100-\u017F\u0180-\u024F]/gi,'');
         name += " " + lastName;
     }
     let maxLength = 80;
